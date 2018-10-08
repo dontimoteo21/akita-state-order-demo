@@ -10,6 +10,10 @@ export interface Order {
 export interface OrderRow {
   id: ID;
   name: string;
-  quantity: number;
-  unitPrice: number;
+  price: number;
+}
+
+export interface OrderListRow {
+  id: ID;
+  name: string;
 }

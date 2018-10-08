@@ -9,14 +9,12 @@ export const ORDERS_MOCK: Order[] = [
       {
         id: 11,
         name: 'Product A of order 1',
-        quantity: 2,
-        unitPrice: 10
+        price: 10
       },
       {
         id: 12,
         name: 'Product B of order 1',
-        quantity: 3,
-        unitPrice: 22
+        price: 22
       }
     ]
   },
@@ -28,20 +26,17 @@ export const ORDERS_MOCK: Order[] = [
       {
         id: 21,
         name: 'Product A of order 2',
-        quantity: 3,
-        unitPrice: 1
+        price: 1
       },
       {
         id: 22,
         name: 'Product B of order 2',
-        quantity: 5,
-        unitPrice: 5
+        price: 5
       },
       {
         id: 23,
         name: 'Product C of order 2',
-        quantity: 100,
-        unitPrice: 0.01
+        price: 100.23
       }
     ]
   }

@@ -14,11 +14,16 @@ export class OrderService {
   ) { }
 
   @transaction()
-  get() {
+  get(id: number) {
     this.orderStore.setLoading(true);
-    this.orderDataService.get()
+    this.orderDataService.get(id)
       .subscribe(response => {
         this.orderStore.add(response);
+
+        let sumPrice = 0;
+        response.orderRows.forEach(x => sumPrice += x.price);
+
+        this.orderStore.updateRoot({ totalPrice: sumPrice });
         this.orderStore.setLoading(false);
       });
   }

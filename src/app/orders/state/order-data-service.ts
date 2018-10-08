@@ -7,7 +7,8 @@ import { Order } from './order.model';
   providedIn: 'root'
 })
 export class OrderDataService {
-  get(): Observable<Order[]> {
-    return of(ORDERS_MOCK);
+  get(id: number): Observable<Order> {
+    const result = ORDERS_MOCK.find(x => x.id === id);
+    return of(result);
   }
 }
