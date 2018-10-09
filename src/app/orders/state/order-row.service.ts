@@ -1,30 +1,36 @@
 import { Injectable } from '@angular/core';
 import { transaction } from '@datorama/akita';
 
-import { OrderStore } from './order.store';
+import { OrderRowStore } from './order-row.store';
 import { OrderDataService } from './order-data-service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class OrderService {
+export class OrderRowService {
 
-  constructor(private orderStore: OrderStore,
+  constructor(private orderRowStore: OrderRowStore,
     private orderDataService: OrderDataService
   ) { }
 
   @transaction()
   get(id: number) {
-    this.orderStore.setLoading(true);
+    this.orderRowStore.setLoading(true);
     this.orderDataService.get(id)
       .subscribe(response => {
-        this.orderStore.add(response);
+        this.orderRowStore.add(response.orderRows);
 
         let sumPrice = 0;
         response.orderRows.forEach(x => sumPrice += x.price);
 
-        this.orderStore.updateRoot({ totalPrice: sumPrice });
-        this.orderStore.setLoading(false);
+        this.orderRowStore.updateRoot({
+          orderName: response.name,
+          orderDate: response.orderDate,
+
+          totalPrice: sumPrice
+        });
+
+        this.orderRowStore.setLoading(false);
       });
   }
 

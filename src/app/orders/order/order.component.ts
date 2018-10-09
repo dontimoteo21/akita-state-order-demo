@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { OrderService } from '../state/order.service';
-import { OrderQuery } from '../state/order.query';
+import { OrderRowService } from '../state/order-row.service';
+import { OrderRowQuery } from '../state/order-row.query';
 
 @Component({
   selector: 'app-order',
@@ -15,13 +15,13 @@ export class OrderComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private orderService: OrderService,
-    private orderQuery: OrderQuery
+    private orderRowService: OrderRowService,
+    private orderRowQuery: OrderRowQuery
   ) { }
 
   ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');
-    this.orderService.get(this.id);
+    this.orderRowService.get(this.id);
   }
 
 }

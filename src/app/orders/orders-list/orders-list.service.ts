@@ -8,9 +8,8 @@ import { OrderListRow } from '../state/order.model';
 })
 export class OrderListService {
   getAll(): Observable<OrderListRow[]> {
-    const result: OrderListRow[] = ORDERS_MOCK.map(order => {
+    return of(ORDERS_MOCK.map(order => {
       return { id: order.id, name: order.name };
-    });
-    return of(result);
+    }));
   }
 }
