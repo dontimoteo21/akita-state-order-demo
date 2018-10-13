@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { transaction } from '@datorama/akita';
 
 import { OrderRowStore } from './order-row.store';
-import { OrderDataService } from './order-data-service';
+import { OrderDataService } from '../order-data-service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,19 +16,13 @@ export class OrderRowService {
   @transaction()
   get(id: number) {
     this.orderRowStore.setLoading(true);
-    this.orderDataService.get(id)
+    this.orderDataService.getOrderRows(id)
       .subscribe(response => {
-        this.orderRowStore.add(response.orderRows);
+        this.orderRowStore.add(response);
 
         let sumPrice = 0;
-        response.orderRows.forEach(x => sumPrice += x.price);
-
-        this.orderRowStore.updateRoot({
-          orderName: response.name,
-          orderDate: response.orderDate,
-
-          totalPrice: sumPrice
-        });
+        response.forEach(x => sumPrice += x.price);
+        this.orderRowStore.updateRoot({ totalPrice: sumPrice });
 
         this.orderRowStore.setLoading(false);
       });
