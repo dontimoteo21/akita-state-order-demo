@@ -8,4 +8,7 @@ export interface OrderListState extends EntityState<Order> {
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'order-list' })
 export class OrderListStore extends EntityStore<OrderListState, Order> {
+  constructor() {
+    super();
+  }
 }

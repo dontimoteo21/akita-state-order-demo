@@ -1,1 +1,10 @@
-<h1>{{ id }}</h1>>
+<h1>Order details</h1>
+
+<div *ngIf="order$ | async; let order">
+  <h2>{{ order.name }}</h2>
+  <h3>{{ order.date }}</h3>
+
+  <a routerLink="/list">Go back to list</a>
+</div>
+
+<div *ngIf="(loadingList$ | async) && (loadingRows$ | async)">Loading...</div>

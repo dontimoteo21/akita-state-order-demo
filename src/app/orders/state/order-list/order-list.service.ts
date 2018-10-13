@@ -16,6 +16,7 @@ export class OrderListService {
     this.orderDataService.getAllOrders()
       .subscribe(response => {
         this.orderListStore.add(response);
+        this.orderListStore.setDirty();
         this.orderListStore.setLoading(false);
       });
   }

@@ -1,7 +1,9 @@
-<ul *ngIf="!(loading$ | async); else loadingTpl">
+<h1>Orders list</h1>
+
+<ul>
   <li *ngFor="let order of orders$ | async">
-    {{order.name}}
+    <a routerLink="/order/{{order.id}}">{{order.name}}</a>
   </li>
 </ul>
 
-<ng-template #loadingTpl>Loading...</ng-template>
+<div *ngIf="loading$ | async">Loading...</div>

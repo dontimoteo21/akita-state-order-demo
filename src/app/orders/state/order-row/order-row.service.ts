@@ -24,6 +24,7 @@ export class OrderRowService {
         response.forEach(x => sumPrice += x.price);
         this.orderRowStore.updateRoot({ totalPrice: sumPrice });
 
+        this.orderRowStore.setDirty();
         this.orderRowStore.setLoading(false);
       });
   }
