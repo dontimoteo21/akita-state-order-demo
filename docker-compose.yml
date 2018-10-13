@@ -1,0 +1,9 @@
+version: '2'
+services:
+
+  front:
+    build: .
+    restart: always
+    container_name: front
+    ports:
+      - 4200:80
