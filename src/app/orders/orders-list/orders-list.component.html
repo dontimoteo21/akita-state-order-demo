@@ -4,4 +4,4 @@
     <a mat-list-item routerLink="/order/{{order.id}}" *ngFor="let order of orders$ | async"> {{ order.name }} </a>
  </mat-nav-list>
 
-<h3 *ngIf="loading$ | async"><mat-spinner></mat-spinner></h3>
+<div *ngIf="loading$ | async"><mat-spinner></mat-spinner></div>
