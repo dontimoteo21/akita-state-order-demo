@@ -15,6 +15,8 @@ export class OrderRowsComponent {
   @Input() loading: boolean;
   @Output() toggleDel = new EventEmitter<ID>();
 
+  displayedColumns = ['id', 'name', 'price', 'action'];
+
   constructor() { }
 
   toggleDelete(id: ID) {

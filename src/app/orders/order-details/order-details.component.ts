@@ -20,7 +20,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   id: number;
   order$: Observable<Order>;
   orderRows$: Observable<OrderRow[]>;
-  totalNumber$: Observable<number>;
+  totalPrice$: Observable<number>;
   loadingList$: Observable<boolean>;
   loadingRows$: Observable<boolean>;
 
@@ -45,7 +45,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     this.loadingRows$ = this.orderRowQuery.selectLoading();
     this.orderRows$ = this.orderRowQuery.selectAll();
 
-    this.totalNumber$ = this.orderRowQuery.select(x => x.totalPrice);
+    this.totalPrice$ = this.orderRowQuery.select(x => x.totalPrice);
   }
 
   ngOnDestroy() {

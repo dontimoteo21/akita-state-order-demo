@@ -1,9 +1,7 @@
 <h1>Orders list</h1>
 
-<ul>
-  <li *ngFor="let order of orders$ | async">
-    <a routerLink="/order/{{order.id}}">{{order.name}}</a>
-  </li>
-</ul>
+<mat-nav-list>
+    <a mat-list-item routerLink="/order/{{order.id}}" *ngFor="let order of orders$ | async"> {{ order.name }} </a>
+ </mat-nav-list>
 
-<div *ngIf="loading$ | async">Loading...</div>
+<h3 *ngIf="loading$ | async"><mat-spinner></mat-spinner></h3>

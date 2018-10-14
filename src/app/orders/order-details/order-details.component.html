@@ -6,9 +6,9 @@
 
   <app-order-rows (toggleDel)="toggleDelete($event)" [rows]="orderRows$ | async" [loading]="loadingRows$ | async"></app-order-rows>
 
-  <h4>Order total: {{ totalNumber$ | async }}</h4>
+  <h4>Order total: {{ (totalPrice$ | async) | currency }}</h4>
 
   <h5><a routerLink="/list">Go back to list</a></h5>
 </div>
 
-<div *ngIf="loadingList$ | async">Loading order details...</div>
+<div *ngIf="loadingList$ | async"><mat-spinner></mat-spinner></div>
