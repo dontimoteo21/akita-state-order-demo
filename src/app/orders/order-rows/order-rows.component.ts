@@ -6,7 +6,7 @@ import { OrderRow } from '../state/order.model';
 @Component({
   selector: 'app-order-rows',
   templateUrl: './order-rows.component.html',
-  styleUrls: ['./order-rows.component.css']
+  styleUrls: ['./order-rows.component.scss']
 })
 export class OrderRowsComponent {
 

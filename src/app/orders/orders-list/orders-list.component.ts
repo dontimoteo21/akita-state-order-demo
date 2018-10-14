@@ -8,7 +8,7 @@ import { Order } from '../state/order.model';
 @Component({
   selector: 'app-orders-list',
   templateUrl: './orders-list.component.html',
-  styleUrls: ['./orders-list.component.css'],
+  styleUrls: ['./orders-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrdersListComponent implements OnInit {
