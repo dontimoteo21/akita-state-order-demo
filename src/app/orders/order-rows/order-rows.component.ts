@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { ID } from '@datorama/akita';
 
 import { OrderRow } from '../state/order.model';
@@ -6,7 +6,8 @@ import { OrderRow } from '../state/order.model';
 @Component({
   selector: 'app-order-rows',
   templateUrl: './order-rows.component.html',
-  styleUrls: ['./order-rows.component.scss']
+  styleUrls: ['./order-rows.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderRowsComponent {
 
