@@ -6,7 +6,7 @@ export interface OrderRowState extends EntityState<OrderRow> {
   totalPrice: number;
 }
 
-const initialState: OrderRowState = {
+export const INITIAL_ORDER_ROW_STATE: OrderRowState = {
   totalPrice: 0
 };
 
@@ -15,7 +15,7 @@ const initialState: OrderRowState = {
 export class OrderRowStore extends EntityStore<OrderRowState, OrderRow> {
 
   constructor() {
-    super(initialState);
+    super(INITIAL_ORDER_ROW_STATE);
   }
 
 }

@@ -2,9 +2,13 @@
 
 <div *ngIf="order$ | async; let order">
   <h2>{{ order.name }}</h2>
-  <h3>{{ order.date }}</h3>
+  <h3>{{ order.date | date }}</h3>
 
-  <a routerLink="/list">Go back to list</a>
+  <app-order-rows (toggleDel)="toggleDelete($event)" [rows]="orderRows$ | async" [loading]="loadingRows$ | async"></app-order-rows>
+
+  <h4>Order total: {{ totalNumber$ | async }}</h4>
+
+  <h5><a routerLink="/list">Go back to list</a></h5>
 </div>
 
-<div *ngIf="(loadingList$ | async) && (loadingRows$ | async)">Loading...</div>
+<div *ngIf="loadingList$ | async">Loading order details...</div>

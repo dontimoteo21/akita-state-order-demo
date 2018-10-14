@@ -1,0 +1,7 @@
+<div>
+  <div *ngFor="let row of rows">
+    {{ row.name }} | {{ row.price }} | <button (click)="toggleDelete(row.id)">&times;</button>
+  </div>
+
+  <div *ngIf="loading">Loading order rows...</div>
+</div>

@@ -1,12 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { ID } from '@datorama/akita';
+
 import { OrderRowService } from '../state/order-row/order-row.service';
 import { OrderRowQuery } from '../state/order-row/order-row.query';
 import { OrderListQuery } from '../state/order-list/order-list.query';
 import { OrderListService } from '../state/order-list/order-list.service';
-import { Observable } from 'rxjs';
-import { Order } from '../state/order.model';
-import { TouchSequence } from 'selenium-webdriver';
+import { Order, OrderRow } from '../state/order.model';
 
 @Component({
   selector: 'app-order-details',
@@ -14,10 +15,12 @@ import { TouchSequence } from 'selenium-webdriver';
   styleUrls: ['./order-details.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrderDetailsComponent implements OnInit {
+export class OrderDetailsComponent implements OnInit, OnDestroy {
 
   id: number;
   order$: Observable<Order>;
+  orderRows$: Observable<OrderRow[]>;
+  totalNumber$: Observable<number>;
   loadingList$: Observable<boolean>;
   loadingRows$: Observable<boolean>;
 
@@ -36,11 +39,21 @@ export class OrderDetailsComponent implements OnInit {
     if (this.orderListQuery.isPristine) {
       this.orderListService.getAll();
     }
+    this.order$ = this.orderListQuery.selectEntity(this.id);
 
     this.orderRowService.get(this.id);
     this.loadingRows$ = this.orderRowQuery.selectLoading();
+    this.orderRows$ = this.orderRowQuery.selectAll();
 
-    this.order$ = this.orderListQuery.selectEntity(this.id);
+    this.totalNumber$ = this.orderRowQuery.select(x => x.totalPrice);
+  }
+
+  ngOnDestroy() {
+    this.orderRowQuery.clearStore();
+  }
+
+  toggleDelete(id: ID) {
+    this.orderRowService.delete(id);
   }
 
 }

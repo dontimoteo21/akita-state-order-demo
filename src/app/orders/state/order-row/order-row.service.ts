@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { transaction } from '@datorama/akita';
+import { transaction, ID, decrement, increment } from '@datorama/akita';
 
 import { OrderRowStore } from './order-row.store';
 import { OrderDataService } from '../order-data-service';
@@ -14,9 +14,9 @@ export class OrderRowService {
   ) { }
 
   @transaction()
-  get(id: number) {
+  get(orderId: number) {
     this.orderRowStore.setLoading(true);
-    this.orderDataService.getOrderRows(id)
+    this.orderDataService.getOrderRows(orderId)
       .subscribe(response => {
         this.orderRowStore.add(response);
 
@@ -27,6 +27,18 @@ export class OrderRowService {
         this.orderRowStore.setDirty();
         this.orderRowStore.setLoading(false);
       });
+  }
+
+  @transaction()
+  delete(id: ID) {
+    this.orderRowStore.setLoading(true);
+
+    // TODO: this.orderDataService.deleteOrderRow(id).subscribe...
+    const price = this.orderRowStore.entities[id].price;
+    this.orderRowStore.updateRoot({ totalPrice: decrement(price) });
+    this.orderRowStore.remove(id);
+
+    this.orderRowStore.setLoading(false);
   }
 
 }
