@@ -49,7 +49,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.orderRowQuery.clearStore();
+    this.orderRowService.clearStore();
   }
 
   toggleDelete(id: ID) {

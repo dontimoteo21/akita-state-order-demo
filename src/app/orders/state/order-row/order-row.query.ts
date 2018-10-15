@@ -10,8 +10,7 @@ export class OrderRowQuery extends QueryEntity<OrderRowState, OrderRow> {
     super(store);
   }
 
-  clearStore() {
-    this.store.remove();
-    this.store.updateRoot(INITIAL_ORDER_ROW_STATE);
+  getTotalPrice() {
+    return this.getSnapshot().totalPrice;
   }
 }

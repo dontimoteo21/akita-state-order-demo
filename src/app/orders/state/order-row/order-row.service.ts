@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { transaction, ID, decrement, increment } from '@datorama/akita';
 
-import { OrderRowStore } from './order-row.store';
+import { OrderRow } from '../order.model';
+import { OrderRowStore, INITIAL_ORDER_ROW_STATE } from './order-row.store';
 import { OrderDataService } from '../order-data-service';
+import { OrderRowQuery } from './order-row.query';
 
 @Injectable({
   providedIn: 'root'
@@ -10,23 +12,26 @@ import { OrderDataService } from '../order-data-service';
 export class OrderRowService {
 
   constructor(private orderRowStore: OrderRowStore,
+    private orderRowQuery: OrderRowQuery,
     private orderDataService: OrderDataService
   ) { }
 
-  @transaction()
   get(orderId: number) {
     this.orderRowStore.setLoading(true);
     this.orderDataService.getOrderRows(orderId)
-      .subscribe(response => {
-        this.orderRowStore.add(response);
+      .subscribe(response => this.updateStore(response));
+  }
 
-        let sumPrice = 0;
-        response.forEach(x => sumPrice += x.price);
-        this.orderRowStore.updateRoot({ totalPrice: sumPrice });
+  @transaction()
+  updateStore(orderRows: OrderRow[]) {
+    this.orderRowStore.add(orderRows);
 
-        this.orderRowStore.setDirty();
-        this.orderRowStore.setLoading(false);
-      });
+    let sumPrice = 0;
+    orderRows.forEach(x => sumPrice += x.price);
+    this.orderRowStore.updateRoot({ totalPrice: sumPrice });
+
+    this.orderRowStore.setDirty();
+    this.orderRowStore.setLoading(false);
   }
 
   @transaction()
@@ -34,11 +39,18 @@ export class OrderRowService {
     this.orderRowStore.setLoading(true);
 
     // TODO: this.orderDataService.deleteOrderRow(id).subscribe...
-    const price = this.orderRowStore.entities[id].price;
-    this.orderRowStore.updateRoot({ totalPrice: decrement(price) });
+    const oldPrice = this.orderRowQuery.getTotalPrice(); // or `this.orderRowStore._value().totalPrice;` ?
+    const removedPrice = this.orderRowStore.entities[id].price;
+    this.orderRowStore.updateRoot({ totalPrice: oldPrice - removedPrice });
     this.orderRowStore.remove(id);
 
     this.orderRowStore.setLoading(false);
+  }
+
+  @transaction()
+  clearStore() {
+    this.orderRowStore.remove();
+    this.orderRowStore.updateRoot(INITIAL_ORDER_ROW_STATE);
   }
 
 }
