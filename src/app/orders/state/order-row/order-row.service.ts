@@ -22,6 +22,11 @@ export class OrderRowService {
       .subscribe(response => this.updateStore(response));
   }
 
+  delete(id: ID) {
+    this.orderRowStore.setLoading(true);
+    this.orderDataService.deleteOrderRow(id).subscribe(() => this.removeFromStore(id));
+  }
+
   @transaction()
   updateStore(orderRows: OrderRow[]) {
     this.orderRowStore.add(orderRows);
@@ -35,14 +40,11 @@ export class OrderRowService {
   }
 
   @transaction()
-  delete(id: ID) {
-    this.orderRowStore.setLoading(true);
-
-    // TODO: this.orderDataService.deleteOrderRow(id).subscribe...
+  removeFromStore(orderRowId: ID) {
     const oldPrice = this.orderRowQuery.getTotalPrice(); // or `this.orderRowStore._value().totalPrice;` ?
-    const removedPrice = this.orderRowStore.entities[id].price;
+    const removedPrice = this.orderRowStore.entities[orderRowId].price;
     this.orderRowStore.updateRoot({ totalPrice: oldPrice - removedPrice });
-    this.orderRowStore.remove(id);
+    this.orderRowStore.remove(orderRowId);
 
     this.orderRowStore.setLoading(false);
   }
